@@ -1,31 +1,96 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+# Surveillance publique de festisyn.com (13 novembre 2026, demande de l'utilisateur : « créer une surveillance avec
+# https://festisyn.com/healthz que tout le monde peut consulter »). /healthz lit la base : une panne du serveur ou de la
+# base répond autre chose que 200. Testé toutes les 5 minutes (le plus court que permet GitHub Actions).
+owner: lycantyr
+repo: festisyn-statut
+user-agent: lycantyr
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Secret Site
-    url: $SECRET_SITE
+  - name: festisyn.com
+    url: https://festisyn.com/healthz
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 5000
+    icon: https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png
+
+# Chaque panne ouvre un ticket assigné au propriétaire : GitHub l'en prévient par e-mail.
+assignees:
+  - lycantyr
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  baseUrl: /festisyn-statut
+  name: État de Festisyn
+  logoUrl: https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png
+  favicon: https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png
+  introTitle: "**festisyn.com** est-il en ligne ?"
+  introMessage: "Le site [festisyn.com](https://festisyn.com) est testé toutes les 5 minutes depuis les serveurs de GitHub. Chaque panne ouvre un incident sur cette page, refermé au retour du site."
   navbar:
-    - title: Status
+    - title: État
       href: /
+    - title: festisyn.com
+      href: https://festisyn.com
     - title: GitHub
       href: https://github.com/$OWNER/$REPO
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+i18n:
+  activeIncidents: Incidents en cours
+  allSystemsOperational: Le site fonctionne normalement
+  incidentReport: "Incident n° $NUMBER →"
+  activeIncidentSummary: Ouvert le $DATE, $POSTS messages
+  incidentTitle: Incident n° $NUMBER
+  incidentDetails: Détails de l'incident
+  incidentFixed: Résolu
+  incidentOngoing: En cours
+  incidentOpenedAt: Ouvert le
+  incidentClosedAt: Fermé le
+  incidentViewOnGitHub: Voir et suivre sur GitHub
+  incidentCommentSummary: Publié le $DATE par $AUTHOR
+  incidentBack: ← Tous les incidents
+  pastIncidents: Incidents passés
+  pastIncidentsResolved: Résolu en $MINUTES minutes, $POSTS messages
+  liveStatus: État en direct
+  overallUptime: "Disponibilité : $UPTIME"
+  overallUptimeTitle: Disponibilité
+  averageResponseTime: "Temps de réponse moyen : $TIME ms"
+  averageResponseTimeTitle: Temps de réponse moyen
+  sevelDayResponseTime: Temps de réponse sur 7 jours
+  responseTimeMs: Temps de réponse (ms)
+  up: En ligne
+  down: Hors ligne
+  degraded: Lent
+  ms: ms
+  loading: Chargement
+  navGitHub: GitHub
+  footer: Page [libre]($REPO), propulsée par [Upptime](https://upptime.js.org)
+  rateLimitExceededTitle: Trop de consultations
+  rateLimitExceededIntro: Cette page a lu trop souvent les données de GitHub depuis ton adresse en une heure. Réessaie un peu plus tard.
+  rateLimitExceededWhatDoesErrorMean: Que veut dire cette erreur ?
+  rateLimitExceededErrorMeaning: Cette page lit l'état du site auprès de GitHub, qui permet 60 lectures par heure et par adresse.
+  rateLimitExceededErrorHowCanFix: Comment faire ?
+  rateLimitExceededErrorFix: Attends une heure, ou ajoute un jeton d'accès GitHub personnel, qui donne 5 000 lectures par heure.
+  rateLimitExceededGeneratePAT: Comment créer un jeton d'accès personnel
+  rateLimitExceededHasSet: Un jeton d'accès personnel est enregistré.
+  rateLimitExceededRemoveToken: Retirer le jeton
+  rateLimitExceededGitHubPAT: Jeton d'accès personnel GitHub
+  rateLimitExceededCopyPastePAT: Colle ton jeton
+  rateLimitExceededSaveToken: Enregistrer le jeton
+  errorTitle: Une erreur est survenue
+  errorIntro: L'état du site n'a pas pu être lu.
+  errorText: Réessaie dans quelques instants.
+  errorHome: Retour à l'accueil
+  pastScheduledMaintenance: Maintenances passées
+  scheduledMaintenance: Maintenance prévue
+  scheduledMaintenanceSummaryStarted: Commencée le $DATE, pour $DURATION minutes
+  scheduledMaintenanceSummaryStarts: Commence le $DATE, pour $DURATION minutes
+  startedAt: Commencée le
+  startsAt: Commence le
+  duration: Durée
+  durationMin: $DURATION minutes
+  incidentCompleted: Terminée
+  incidentScheduled: Prévue
+  duration24H: 24 h
+  duration7D: 7 j
+  duration30D: 30 j
+  duration1Y: 1 an
+  durationAll: tout
+  locale: fr-FR
