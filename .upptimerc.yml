@@ -1,13 +1,43 @@
 # Surveillance publique de festisyn.com (13 novembre 2026, demande de l'utilisateur : « créer une surveillance avec
 # https://festisyn.com/healthz que tout le monde peut consulter »). /healthz lit la base : une panne du serveur ou de la
 # base répond autre chose que 200. Testé toutes les 5 minutes (le plus court que permet GitHub Actions).
+# Quatre éléments suivis (même jour, demande « Améliore l'affichage de la page […] dans le même style que d'autres site du
+# genre » et choix de l'utilisateur) : chacun a son point de contrôle sur festisyn.com (app/.server/status-checks.ts du site),
+# 200 quand il marche, 503 sinon. Les « slug » sont écrits en dur : l'historique (history/, tickets) en dépend, et
+# « festisyn-com » garde celui de la surveillance d'origine. La page publique est docs/ (servie par GitHub Pages depuis
+# master:/docs), qui lit history/summary.json, history/<slug>.yml, les tickets « status » et https://festisyn.com/api/etat.
 owner: lycantyr
 repo: festisyn-statut
 user-agent: lycantyr
 
 sites:
-  - name: festisyn.com
+  - name: Site et pages
+    slug: festisyn-com
     url: https://festisyn.com/healthz
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 5000
+    icon: https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png
+  # Une vraie recherche de la carte (« concert » autour du Châtelet), gardée 15 s par le site.
+  - name: Carte et recherche
+    slug: carte-et-recherche
+    url: https://festisyn.com/healthz/carte
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 5000
+    icon: https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png
+  # Module de connexion, tables des comptes et réglages nécessaires, sans envoyer d'e-mail ni appeler Google.
+  - name: Connexion et comptes
+    slug: connexion-et-comptes
+    url: https://festisyn.com/healthz/comptes
+    expectedStatusCodes:
+      - 200
+    maxResponseTime: 5000
+    icon: https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png
+  # Dernier passage complet de l'import de nuit (4 h, heure de Paris) fini depuis moins de 26 h, sans étape en échec.
+  - name: Mise à jour de nuit
+    slug: mise-a-jour-de-nuit
+    url: https://festisyn.com/healthz/nuit
     expectedStatusCodes:
       - 200
     maxResponseTime: 5000
@@ -34,7 +64,7 @@ status-website:
 
 i18n:
   activeIncidents: Incidents en cours
-  allSystemsOperational: Le site fonctionne normalement
+  allSystemsOperational: Tout fonctionne
   incidentReport: "Incident n° $NUMBER →"
   activeIncidentSummary: Ouvert le $DATE, $POSTS messages
   incidentTitle: Incident n° $NUMBER

@@ -1,0 +1,1081 @@
+/* Page de statut de Festisyn : couleurs et police du site (app/app.css de festisyn.com), en clair et en sombre selon
+   l'appareil. Couleurs d'état et rampe d'affluence vérifiées avec le validateur de palette (contraste, daltonisme). */
+@font-face {
+  font-family: "Inter";
+  src: url("inter.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --brand: #3340e6;
+  --brand-soft: #eceeff;
+  --surface: #ffffff;
+  --surface-muted: #f6f7f8;
+  --line: #e5e7eb;
+  --ink: #111827;
+  --ink-muted: #6b7280;
+  --link: #1d4ed8;
+  /* États : sans incident, ralentissement, panne, pas encore suivi. */
+  --ok: #0f9f6e;
+  --lent: #d97706;
+  --panne: #c81e1e;
+  --vide: #d1d5db;
+  --ok-soft: #e8f6f0;
+  --lent-soft: #fdf2e2;
+  --panne-soft: #fdecec;
+  /* Affluence : calme, habituelle, forte, très forte (une teinte, de clair à foncé). */
+  --aff-1: #a3abf5;
+  --aff-2: #6f7bef;
+  --aff-3: #3340e6;
+  --aff-4: #1d258f;
+  --heure-lente: #fbe3bf;
+  --rayure: rgb(255 255 255 / 0.55);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand: #a3acff;
+    --brand-soft: #232a52;
+    --surface: #15171b;
+    --surface-muted: #0d0f12;
+    --line: #2a2e35;
+    --ink: #f3f4f6;
+    --ink-muted: #9ca3af;
+    --link: #93c5fd;
+    --ok: #1aae80;
+    --lent: #f0b04a;
+    --panne: #e2453f;
+    --vide: #3a3f48;
+    --ok-soft: #102620;
+    --lent-soft: #2b2110;
+    --panne-soft: #2c1414;
+    --aff-1: #3842b0;
+    --aff-2: #5561e6;
+    --aff-3: #8a93f8;
+    --aff-4: #c4c9ff;
+    --heure-lente: #3d2c0f;
+    --rayure: rgb(21 23 27 / 0.6);
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface-muted);
+  color: var(--ink);
+  font: 400 1rem/1.55 "Inter", ui-sans-serif, system-ui, sans-serif;
+  overflow-wrap: break-word;
+}
+
+::selection {
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.evitement {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  z-index: 2;
+}
+
+.evitement:focus {
+  top: 1rem;
+}
+
+.tete,
+main,
+.pied {
+  width: 100%;
+  max-width: 55rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .tete,
+  main,
+  .pied {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.tete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 0.5rem;
+}
+
+.logo {
+  display: inline-flex;
+  padding: 0.25rem 0;
+  border-radius: 6px;
+}
+
+.logo svg {
+  height: 1.75rem;
+  width: auto;
+  display: block;
+}
+
+.logo-nom {
+  fill: var(--ink);
+}
+
+.vers-site {
+  flex: none;
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 2.75rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--surface);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+/* Le site ne répond pas : « Réessayer festisyn.com », en contour ; « festisyn.com » seul à l'écran sous 26rem, où le mot plus long
+   ne laissait que 6 px de reste (mesuré à 390 px). */
+@media (max-width: 26rem) {
+  .vers-site[data-indisponible] .vers-site-debut {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.vers-site[data-indisponible] {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--ink-muted);
+}
+
+.vers-site:hover {
+  text-decoration: underline;
+}
+
+/* Téléphone étroit : le logo un peu plus petit et « festisyn.com » seul à l'écran ; le lien garde son nom entier pour un
+   lecteur d'écran. Mesuré à 320 px : logo, écart et bouton tiennent avec plus de 15 px de reste. */
+@media (max-width: 24rem) {
+  .logo svg {
+    height: 1.5rem;
+  }
+
+  .vers-site-debut {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 750;
+  margin: 1.5rem 0 1rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.sans-script {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Bandeau d'état */
+.bandeau {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.12);
+}
+
+.bandeau[data-etat="ok"] {
+  background: var(--ok-soft);
+  border-color: transparent;
+}
+
+.bandeau[data-etat="lent"] {
+  background: var(--lent-soft);
+  border-color: transparent;
+}
+
+.bandeau[data-etat="panne"],
+.bandeau[data-etat="panne-partielle"] {
+  background: var(--panne-soft);
+  border-color: transparent;
+}
+
+.bandeau-icone {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--vide);
+  color: var(--surface);
+}
+
+.bandeau-icone svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.bandeau[data-etat="ok"] .bandeau-icone {
+  background: var(--ok);
+}
+
+.bandeau[data-etat="lent"] .bandeau-icone {
+  background: var(--lent);
+}
+
+.bandeau[data-etat="panne"] .bandeau-icone,
+.bandeau[data-etat="panne-partielle"] .bandeau-icone {
+  background: var(--panne);
+}
+
+.bandeau-texte {
+  min-width: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.bandeau-titre {
+  font-size: 1.375rem;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.bandeau-detail {
+  color: var(--ink);
+}
+
+.bandeau-lien {
+  margin-top: 0.25rem;
+  font-weight: 600;
+}
+
+/* Blocs */
+.bloc {
+  margin-top: 2.5rem;
+}
+
+.bloc-tete {
+  display: grid;
+  gap: 0.375rem;
+  margin-bottom: 1rem;
+  max-width: 42rem;
+}
+
+.bloc-aide {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+#temps-phrase,
+#affluence-maintenant {
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+/* Éléments du service */
+.elements {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+}
+
+.element {
+  container-type: inline-size;
+  padding: 1.125rem 1.25rem 1rem;
+}
+
+.element + .element {
+  border-top: 1px solid var(--line);
+}
+
+/* Nom puis état l'un sous l'autre sur une ligne étroite, côte à côte au-delà : la même disposition pour les quatre éléments,
+   quel que soit le nom (le plus long et l'état le plus long tiennent avec plus de 15 px de reste dès 22rem). */
+.element-tete {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+}
+
+@container (min-width: 22rem) {
+  .element-tete {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+.element-nom {
+  font-size: 1.0625rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.element-etat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+
+.element-etat svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  align-self: center;
+}
+
+.element-etat[data-etat="ok"] svg {
+  color: var(--ok);
+}
+
+.element-etat[data-etat="lent"] svg {
+  color: var(--lent);
+}
+
+.element-etat[data-etat="panne"] svg {
+  color: var(--panne);
+}
+
+.element-etat[data-etat="inconnu"] svg,
+.element-etat[data-etat="non-suivi"] svg {
+  color: var(--ink-muted);
+}
+
+.element-aide {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+  margin-top: 0.125rem;
+}
+
+.element-detail {
+  font-size: 0.9375rem;
+  margin-top: 0.375rem;
+}
+
+/* Barres des jours : 30 sur un téléphone, 60 sur une largeur moyenne, 90 au-delà. */
+.jours {
+  margin-top: 0.875rem;
+  border-radius: 0.5rem;
+  touch-action: pan-y;
+}
+
+.barres {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 2.125rem;
+}
+
+.barre {
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: 2px;
+  background: var(--vide);
+  height: 30%;
+}
+
+.barre[data-jour="ok"] {
+  background: var(--ok);
+  height: 72%;
+}
+
+.barre[data-jour="lent"] {
+  background: var(--lent) repeating-linear-gradient(135deg, transparent 0 3px, var(--rayure) 3px 5px);
+  height: 100%;
+}
+
+.barre[data-jour="panne"] {
+  background: var(--panne);
+  height: 100%;
+}
+
+/* Jour d'incident sans détail (GitHub limité : panne ou ralentissement, on ne sait pas) : gris plein, pleine hauteur. */
+.barre[data-jour="incident"] {
+  background: var(--ink-muted);
+  height: 100%;
+}
+
+.barre[data-actif] {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink);
+}
+
+.barre:nth-child(-n + 60) {
+  display: none;
+}
+
+.periode-60,
+.periode-90 {
+  display: none;
+}
+
+@container (min-width: 30rem) {
+  .barre:nth-child(-n + 60) {
+    display: block;
+  }
+
+  .barre:nth-child(-n + 30) {
+    display: none;
+  }
+
+  .periode-30 {
+    display: none;
+  }
+
+  .periode-60 {
+    display: inline;
+  }
+}
+
+@container (min-width: 46rem) {
+  .barre:nth-child(-n + 30) {
+    display: block;
+  }
+
+  .periode-60 {
+    display: none;
+  }
+
+  .periode-90 {
+    display: inline;
+  }
+}
+
+.element-dispo {
+  font-size: 0.9375rem;
+  margin-top: 0.625rem;
+}
+
+.element-dispo strong {
+  font-weight: 650;
+}
+
+/* Ligne des jours : les bornes au repos, le jour lu sinon. Deux lignes réservées sur un téléphone (le jour lu peut y tenir
+   sur deux lignes), une au-delà : rien ne bouge sous les barres pendant la lecture. */
+.jours-lecture {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.375rem;
+  min-height: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  color: var(--ink-muted);
+}
+
+/* Une ligne réservée ; deux sur la plus petite largeur, où même la lecture courte d'un jour peut passer à la ligne. */
+@container (max-width: 17rem) {
+  .jours-lecture {
+    min-height: 2.5rem;
+  }
+}
+
+.jours-lecture[data-actif] {
+  color: var(--ink);
+  font-weight: 550;
+  justify-content: flex-start;
+}
+
+.legende {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0 0.25rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.legende li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* L'attribut hidden l'emporte sur display (légende des jours d'incident sans détail, montrée seulement s'il y en a). */
+.legende li[hidden] {
+  display: none;
+}
+
+.barre-ex {
+  display: inline-block;
+  width: 0.5rem;
+  height: 1.125rem;
+  border-radius: 2px;
+  align-self: flex-end;
+}
+
+.barre-ex[data-jour="ok"] {
+  background: var(--ok);
+  height: 0.8rem;
+}
+
+.barre-ex[data-jour="lent"] {
+  background: var(--lent) repeating-linear-gradient(135deg, transparent 0 3px, var(--rayure) 3px 5px);
+}
+
+.barre-ex[data-jour="panne"] {
+  background: var(--panne);
+}
+
+.barre-ex[data-jour="incident"] {
+  background: var(--ink-muted);
+}
+
+.barre-ex[data-jour="non-suivi"] {
+  background: var(--vide);
+  height: 0.35rem;
+}
+
+details {
+  margin-top: 0.75rem;
+}
+
+summary {
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--link);
+  width: fit-content;
+  border-radius: 4px;
+  padding: 0.25rem 0;
+}
+
+.tableau-cadre {
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  max-height: 22rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-muted) transparent;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.375rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  font-weight: 650;
+}
+
+tbody tr:last-child td,
+tbody tr:last-child th {
+  border-bottom: 0;
+}
+
+/* Graphiques */
+.panneau {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  padding: 1.125rem 1.25rem 1rem;
+}
+
+.vide {
+  color: var(--ink-muted);
+}
+
+.graphe {
+  border-radius: 0.5rem;
+  touch-action: pan-y;
+}
+
+.graphe svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.graphe text {
+  fill: var(--ink-muted);
+  font: 500 12px "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.graphe .grille {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.graphe .seuil {
+  stroke: var(--ink-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+.graphe .heure-lente {
+  fill: var(--heure-lente);
+}
+
+.graphe .p95 {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.graphe .p50 {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.graphe .curseur {
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.graphe .point-seul {
+  fill: var(--brand);
+}
+
+.graphe .point {
+  fill: var(--brand);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.lecture {
+  min-height: 3rem;
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+
+.lecture[data-actif] {
+  color: var(--ink);
+}
+
+.lecture strong {
+  font-weight: 650;
+}
+
+.cles {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.cles li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cle-trait {
+  width: 1.25rem;
+  height: 0;
+  border-top: 2px solid var(--brand);
+}
+
+.cle-trait.p50 {
+  border-top: 1.5px solid var(--ink-muted);
+}
+
+.cle-trait.seuil {
+  border-top: 1.5px dashed var(--ink-muted);
+}
+
+.cle-bande {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 3px;
+  background: var(--heure-lente);
+  border: 1px solid var(--lent);
+}
+
+/* Semaine type : 7 jours × 24 heures ; en colonnes de jours sur une largeur étroite. */
+.semaine {
+  container-type: inline-size;
+}
+
+.grille-semaine {
+  --sens: large;
+  display: grid;
+  grid-template-columns: 2.75rem repeat(24, minmax(0, 1fr));
+  grid-template-rows: auto repeat(7, 1.75rem);
+  gap: 3px;
+  border-radius: 0.5rem;
+}
+
+.grille-semaine .case {
+  grid-row: calc(var(--j) + 1);
+  grid-column: calc(var(--h) + 2);
+  border-radius: 4px;
+  background: transparent;
+  border: 1px dashed var(--line);
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+
+.case[data-niveau] {
+  border: 0;
+}
+
+.case[data-niveau="calme"] {
+  background: var(--aff-1);
+}
+
+.case[data-niveau="habituelle"] {
+  background: var(--aff-2);
+}
+
+.case[data-niveau="forte"] {
+  background: var(--aff-3);
+}
+
+.case[data-niveau="tres-forte"] {
+  background: var(--aff-4);
+}
+
+.case[data-actif] {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink);
+  position: relative;
+  z-index: 1;
+}
+
+.marque {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.marque[data-ralenti="souvent"] {
+  background: var(--lent);
+}
+
+.marque[data-ralenti="parfois"] {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 2px var(--lent), 0 0 0 2px var(--surface);
+}
+
+.grille-semaine .nom-jour {
+  grid-row: calc(var(--j) + 1);
+  grid-column: 1;
+  align-self: center;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.grille-semaine .nom-heure {
+  grid-row: 1;
+  grid-column: calc(var(--h) + 2);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nom-heure.secondaire {
+  visibility: hidden;
+}
+
+@container (max-width: 33rem) {
+  .grille-semaine {
+    --sens: etroit;
+    grid-template-columns: 2.75rem repeat(7, minmax(0, 1fr));
+    grid-template-rows: auto repeat(24, 1.125rem);
+    gap: 2px 3px;
+  }
+
+  .grille-semaine .case {
+    grid-row: calc(var(--h) + 2);
+    grid-column: calc(var(--j) + 1);
+  }
+
+  .grille-semaine .nom-jour {
+    grid-row: 1;
+    grid-column: calc(var(--j) + 1);
+    text-align: center;
+  }
+
+  .grille-semaine .nom-heure {
+    grid-row: calc(var(--h) + 2);
+    grid-column: 1;
+    text-align: left;
+    align-self: center;
+    line-height: 1;
+  }
+
+  .marque {
+    width: 0.4375rem;
+    height: 0.4375rem;
+  }
+}
+
+.echelle {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.875rem 0 0;
+  padding: 0;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.echelle li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.echelle .case-ex {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 4px;
+}
+
+.case-ex[data-niveau="calme"] {
+  background: var(--aff-1);
+}
+
+.case-ex[data-niveau="habituelle"] {
+  background: var(--aff-2);
+}
+
+.case-ex[data-niveau="forte"] {
+  background: var(--aff-3);
+}
+
+.case-ex[data-niveau="tres-forte"] {
+  background: var(--aff-4);
+}
+
+.case-ex[data-niveau="aucun"] {
+  border: 1px dashed var(--ink-muted);
+}
+
+/* Phrase posée au-dessus d'un graphique : de l'air avant ses étiquettes. */
+.panneau > .bloc-aide:first-child {
+  margin-bottom: 0.875rem;
+}
+
+.echelle + .echelle {
+  margin-top: 0.5rem;
+}
+
+.semaine-phrase {
+  margin-top: 1rem;
+  max-width: 42rem;
+}
+
+/* Incidents */
+.jour-incidents {
+  padding: 1rem 1.25rem;
+}
+
+.jour-incidents + .jour-incidents {
+  border-top: 1px solid var(--line);
+}
+
+.jour-incidents h3 {
+  font-size: 1rem;
+  font-weight: 650;
+  margin: 0 0 0.25rem;
+}
+
+.jour-incidents .aucun {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.incident {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.125rem 0.625rem;
+  margin-top: 0.5rem;
+}
+
+.incident svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.15rem;
+  grid-row: span 2;
+}
+
+.incident[data-etat="panne"] svg {
+  color: var(--panne);
+}
+
+.incident[data-etat="inconnu"] svg {
+  color: var(--ink-muted);
+}
+
+.incident[data-etat="lent"] svg {
+  color: var(--lent);
+}
+
+.incident-titre {
+  font-weight: 600;
+}
+
+.incident-detail {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.incidents-note {
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+}
+
+.avis {
+  font-size: 0.9375rem;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.avis:last-child {
+  border-bottom: 0;
+}
+
+/* Pied */
+.pied {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .barre,
+  .case,
+  a,
+  summary {
+    transition: box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1), text-decoration-thickness 150ms;
+  }
+}
+
+@media (forced-colors: active) {
+  .barre,
+  .case,
+  .barre-ex,
+  .case-ex {
+    border: 1px solid CanvasText;
+  }
+}
+
+.panneau-liste {
+  padding: 0;
+}
+
+/* Chiffres de même largeur là où ils s'alignent (tableaux, axes). Pas sur tout le texte : avec Inter, « tnum » donne aussi au
+   trait d'union une largeur de chiffre (« au - delà »). */
+table,
+.element-dispo strong {
+  font-variant-numeric: tabular-nums;
+}
