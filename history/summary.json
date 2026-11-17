@@ -59,18 +59,18 @@
     "icon": "https://raw.githubusercontent.com/lycantyr/festisyn-statut/master/assets/festisyn.png",
     "slug": "mise-a-jour-de-nuit",
     "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "99.99%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "uptime": "98.73%",
+    "uptimeDay": "95.61%",
+    "uptimeWeek": "98.73%",
+    "uptimeMonth": "98.73%",
+    "uptimeYear": "98.73%",
     "time": 223,
     "timeDay": 181,
     "timeWeek": 223,
     "timeMonth": 223,
     "timeYear": 223,
     "dailyMinutesDown": {
-      "2026-11-17": 0
+      "2026-11-17": 63
     }
   }
 ]
